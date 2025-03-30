@@ -3,34 +3,46 @@ import { Button } from '@/components/ui/button';
 import { ExpertsList } from '@/services/Options';
 import { useUser } from '@stackframe/stack';
 import Image from 'next/image';
-
+import UserInputDialog from './UserInputDialog';
 
 const FeatureAssistants = () => {
     const user = useUser();
-  return (
-    <div>
-        <div className="flex justify-between items-center">
-        <div>
-        <h2 className="font-bold text-xl">My WorkSpace</h2>
-        <h2 className="font-semibold text-2xl">Welcome back, {user?.displayName}</h2>
-        </div>
-        <Button>Profile</Button>
-        </div>
-        <div className="grid grid-cols-3 gap-4 mt-10">
-          {ExpertsList.map((option, index) => (
-            <div key={index} className="p-3 bg-secondary">
-              <Image src={option.icon} alt={option.name}
-               width={40} 
-               height={40}
-              className="h-[70px] w-[70px]"
-               />
-              <h3 className="font-semibold text-lg">{option.name}</h3>
+    return (
+        <div className="container mx-auto px-4 sm:px-6 py-6">
+           
+            <div className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:justify-between sm:items-center mb-8">
+                <div>
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-800">My WorkSpace</h2>
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+                        Welcome back, {user?.displayName || 'User'}
+                    </h1>
+                </div>
+                <Button className="w-full sm:w-fit mt-2 sm:mt-0">Profile</Button>
             </div>
 
-          ))}
+            {/* Experts Grid */}
+            <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                {ExpertsList.map((option, index) => (
+                    <UserInputDialog ExpertsList={option} key={index}>
+                        <div className="flex flex-col items-center p-4 bg-white dark:bg-secondary rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 h-full">
+                            <div className="relative mb-3">
+                                <Image 
+                                    src={option.icon} 
+                                    alt={option.name}
+                                    width={64}
+                                    height={64}
+                                    className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 object-contain hover:rotate-12 transition-transform duration-300"
+                                />
+                            </div>
+                            <h3 className="text-center font-medium text-sm sm:text-base text-gray-800 dark:text-white">
+                                {option.name}
+                            </h3>
+                        </div>
+                    </UserInputDialog>
+                ))}
+            </div>
         </div>
-    </div>
-  )
-}
+    );
+};
 
-export default FeatureAssistants
+export default FeatureAssistants;
