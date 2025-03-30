@@ -9,8 +9,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Textarea } from '@/components/ui/textarea'
+import { api } from "@/convex/_generated/api"
 import { TopicsList } from "@/services/Options"
 import { DialogClose } from "@radix-ui/react-dialog"
+import { useMutation } from "convex/react"
+import { LoaderCircle } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
 
@@ -20,6 +23,19 @@ const UserInputDialog = ({ children, ExpertsList }) => {
 
   const [selected, setSelected] = useState();
   const [topic, setTopic] = useState();
+  const createDiscussionRoom = useMutation(api.DiscussionRoom.CreateNewRoom);
+  const [loading, setLoading] = useState(false);
+
+  const onClickNext = async() => {
+    setLoading(true);
+    const result = await createDiscussionRoom({
+      topic: topic,
+      coachingOption: ExpertsList.name,
+      expertName: selected
+    })
+    console.log(result);
+    setLoading(false);
+  }
 
   return (
     <div>
@@ -60,7 +76,9 @@ const UserInputDialog = ({ children, ExpertsList }) => {
                   <Button variant={'ghost'}>Cancel</Button>
                   </DialogClose>
                  
-                  <Button disabled={(!topic || !selected)}>Next</Button>
+                  <Button disabled={(!topic || !selected|| loading)} onClick={onClickNext}>
+                    {loading&&<LoaderCircle className="animate-spin" />}
+                    Next</Button>
                 </div>
               </div>
             </DialogDescription>
