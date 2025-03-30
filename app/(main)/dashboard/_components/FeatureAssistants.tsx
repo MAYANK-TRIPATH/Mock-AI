@@ -20,7 +20,7 @@ const FeatureAssistants = () => {
                 <Button className="w-full sm:w-fit mt-2 sm:mt-0">Profile</Button>
             </div>
 
-            {/* Experts Grid */}
+          
             <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
                 {ExpertsList.map((option, index) => (
                     <UserInputDialog ExpertsList={option} key={index}>
