@@ -15,6 +15,7 @@ import { DialogClose } from "@radix-ui/react-dialog"
 import { useMutation } from "convex/react"
 import { LoaderCircle } from "lucide-react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 
@@ -25,6 +26,8 @@ const UserInputDialog = ({ children, ExpertsList }) => {
   const [topic, setTopic] = useState();
   const createDiscussionRoom = useMutation(api.DiscussionRoom.CreateNewRoom);
   const [loading, setLoading] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const router = useRouter();
 
   const onClickNext = async() => {
     setLoading(true);
@@ -35,11 +38,13 @@ const UserInputDialog = ({ children, ExpertsList }) => {
     })
     console.log(result);
     setLoading(false);
+    setOpenDialog(false);
+    router.push('/discussion-room/'+result);
   }
 
   return (
     <div>
-      <Dialog>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogTrigger>{children}</DialogTrigger>
         <DialogContent>
           <DialogHeader>
