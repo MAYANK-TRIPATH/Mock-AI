@@ -1,5 +1,10 @@
 // Todo :- Add better images
 
+export type TopicItem = {
+    name: string;
+    avatar: any;
+  };
+
 export const ExpertsList = [
     {
         name: 'Learn with AI',
@@ -15,7 +20,7 @@ export const ExpertsList = [
     },
 ]
 
-export const TopicsList = [
+export const TopicsList: TopicItem[] = [
     {
         name: 'Kirat',
         avatar: '/globe.svg',
